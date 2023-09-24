@@ -1,0 +1,7 @@
+{
+  "name": "props-builder",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "author": "williamfelippe <wfelippesilva@gmail.com>",
+  "license": "MIT"
+}
