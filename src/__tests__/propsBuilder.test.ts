@@ -1,19 +1,28 @@
+import { faker } from '@faker-js/faker'
+
 import { propsBuilder } from '../propsBuilder'
 
-const testBuilder = propsBuilder<{ test: string }>('Test', { test: 'it works!' })
+type TestProps = { test: string }
+const initialValue = faker.word.sample()
+const testBuilder = propsBuilder<TestProps>('Test', () => ({ test: initialValue }))
 
 test('should set default property', () => {
-  const expectedResult = 'it works!'
-  const props = testBuilder()
+  const props = testBuilder.buildOne()
+
+  expect(props).toHaveProperty('test')
+  expect(props.test).toBe(initialValue)
+})
+
+test('should change property after building', () => {
+  const expectedResult = 'it changes!'
+  const props = testBuilder.buildOne({ test: expectedResult })
 
   expect(props).toHaveProperty('test')
   expect(props.test).toBe(expectedResult)
 })
 
-test('should change property after building', () => {
-  const expectedResult = 'it changes!'
-  const props = testBuilder({ test: expectedResult })
+test('should create multiple properties', () => {
+  const props = testBuilder.buildMultiples(3)
 
-  expect(props).toHaveProperty('test')
-  expect(props.test).toBe(expectedResult)
+  expect(props).toHaveLength(3)
 })
